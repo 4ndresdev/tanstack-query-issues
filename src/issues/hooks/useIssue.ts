@@ -4,7 +4,7 @@ import { getComments } from "../actions/get-comments.actions";
 
 export const useIssue = (issueNumber: number) => {
   const issueQuery = useQuery({
-    queryKey: ["issue", issueNumber],
+    queryKey: ["issues", issueNumber],
     queryFn: () => getIssue(issueNumber),
     staleTime: 1000 * 60, // 1 minute
   });
