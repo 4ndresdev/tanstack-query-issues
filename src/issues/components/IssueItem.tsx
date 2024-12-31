@@ -4,6 +4,7 @@ import { GithubIssue, State } from "../interfaces/issue.interface";
 import { useQueryClient } from "@tanstack/react-query";
 import { getIssue } from "../actions/get-issue.actions";
 import { getComments } from "../actions/get-comments.actions";
+import { timeSince } from "../helpers/time-since";
 
 interface Props {
   issue: GithubIssue;
@@ -52,9 +53,23 @@ export const IssueItem = ({ issue }: Props) => {
           {issue.title}
         </a>
         <span className="text-gray-500">
-          #{issue.number} opened 2 days ago by{" "}
+          #{issue.number} opened {timeSince(issue.created_at)} ago by{" "}
           <span className="font-bold">{issue.user.login}</span>
         </span>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {issue.labels.map((label) => (
+            <span
+              key={label.id}
+              className="animate-fadeIn px-2 py-1 rounded-full text-xs font-semibold hover:bg-slate-800 cursor-pointer"
+              style={{
+                border: `1px solid #${label.color}`,
+                color: `#${label.color}`,
+              }}
+            >
+              {label.name}
+            </span>
+          ))}
+        </div>
       </div>
 
       <img
