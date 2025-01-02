@@ -4,7 +4,8 @@ import { GithubIssue, State } from "../interfaces/issue.interface";
 
 export const getIssues = async (
   state: string,
-  labels: string[]
+  labels: string[],
+  page: number = 1
 ): Promise<GithubIssue[]> => {
   await sleep(1000);
 
@@ -17,6 +18,9 @@ export const getIssues = async (
   if (labels.length > 0) {
     params.append("labels", labels.join(","));
   }
+
+  params.append("page", page.toString());
+  params.append("per_page", "5");
 
   const { data } = await githubApi.get<GithubIssue[]>("/issues", {
     params,

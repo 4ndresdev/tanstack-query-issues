@@ -7,7 +7,10 @@ import { State } from "../interfaces/issue.interface";
 export const ListView = () => {
   const [state, setState] = useState<State>(State.All);
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
-  const { issuesQuery } = useIssues({ state, labels: selectedLabels });
+  const { issuesQuery, page, nextPage, previousPage } = useIssues({
+    state,
+    labels: selectedLabels,
+  });
 
   const issues = issuesQuery.data || [];
 
@@ -25,7 +28,24 @@ export const ListView = () => {
         {issuesQuery.isLoading ? (
           <div>Loading...</div>
         ) : (
-          <IssueList issues={issues} state={state} onStateChange={setState} />
+          <>
+            <IssueList issues={issues} state={state} onStateChange={setState} />
+            <div className="flex justify-between items-center ">
+              <button
+                onClick={previousPage}
+                className="min-w-32 p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-800 transition-all mt-2"
+              >
+                Previous
+              </button>
+              <span>{page}</span>
+              <button
+                onClick={nextPage}
+                className="min-w-32 p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-800 transition-all mt-2"
+              >
+                Next
+              </button>
+            </div>
+          </>
         )}
       </div>
 
