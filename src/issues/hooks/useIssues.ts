@@ -13,7 +13,7 @@ export const useIssues = ({ state, labels }: Props) => {
 
   const issuesQuery = useQuery({
     queryKey: ["issues", { state, labels, page }],
-    queryFn: () => getIssues(state, labels, 1),
+    queryFn: () => getIssues(state, labels, page),
     staleTime: 1000 * 60, // 1 minute
   });
 
